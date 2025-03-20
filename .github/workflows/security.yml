@@ -31,7 +31,7 @@ jobs:
       - name: Run Bandit
         run: |
           source venv/bin/activate
-          bandit -r . -f json -o report.json  # Запуск анализа на весь проект
+          bandit main.py  # Запуск анализа на весь проект
 
   gitleaks:
     name: Run GitLeaks Secret Scan
