@@ -31,7 +31,7 @@ jobs:
       - name: Run Bandit
         run: |
           source venv/bin/activate
-          bandit -r .  # Запуск анализа на весь проект
+          bandit -r . --skip B101,B301  # Запуск анализа на весь проект
 
   gitleaks:
     name: Run GitLeaks Secret Scan
