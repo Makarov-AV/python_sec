@@ -43,7 +43,12 @@ jobs:
       - name: Install GitLeaks
         run: |
           curl -sSL https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks
-          chmod +x /usr/local/bin/gitleaks  # Даем права на выполнение
+          chmod +x gitleaks  # Даем права на выполнение
+          sudo mv gitleaks /usr/local/bin/
+
+     - name: Verify GitLeaks Instalation
+       run: |
+          gitleaks version
 
       - name: Run GitLeaks
         run: |
