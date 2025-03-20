@@ -1,0 +1,50 @@
+name: Security Check
+
+on:
+  push:
+    branches:
+      - main  # Вы можете настроить на любую ветку, на которую хотите проверять
+  pull_request:
+    branches:
+      - main  # Или ветка, с которой делают PR
+
+jobs:
+  bandit:
+    name: Run Bandit Security Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13.2'  # Укажите нужную версию Python
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install bandit  # Устанавливаем Bandit
+          pip install -r requirements.txt  # Устанавливаем зависимости проекта
+
+      - name: Run Bandit
+        run: |
+          source venv/bin/activate
+          bandit -r .  # Запуск анализа на весь проект
+
+  gitleaks:
+    name: Run GitLeaks Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install GitLeaks
+        run: |
+          curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.3.0/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks
+          chmod +x /usr/local/bin/gitleaks  # Даем права на выполнение
+
+      - name: Run GitLeaks
+        run: |
+          gitleaks detect --source=. --report=gitleaks-report.json --redact
