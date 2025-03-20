@@ -46,10 +46,6 @@ jobs:
           chmod +x gitleaks  # Даем права на выполнение
           sudo mv gitleaks /usr/local/bin/
 
-     - name: Verify GitLeaks Instalation
-       run: |
-          gitleaks version
-
       - name: Run GitLeaks
         run: |
           gitleaks detect --source=. --report=gitleaks-report.json --redact
