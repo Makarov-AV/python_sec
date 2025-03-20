@@ -50,4 +50,4 @@ jobs:
 
       - name: Run GitLeaks
         run: |
-          gitleaks detect --source=. --report=gitleaks-report.json --redact
+          gitleaks detect --source=. --verbose
